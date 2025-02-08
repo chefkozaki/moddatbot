@@ -2,7 +2,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
 const { token } = require('./config.json');
-
+const sssrc = ['Diêm Vương - 7*']
+const src = ['Lốp Thức tỉnh - 6*']
+const rareCharacters = ['Họa sĩ nghèo gay - 4,5*', 'Mod Đạt - 5*', 'Vỹ Gay Mặc Maid -5*'];
+const commonCharacters = ['Chén Ku Cho - 4*', 'Lốp Trưởng - 4*', 'Nhà cái Yelan - $$$', 'Q.B.V- Infinity Fame', 'Linh vật N - Lốp' ];
 const client = new Client({
 	intents: [
 	  GatewayIntentBits.Guilds,
@@ -53,11 +56,12 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+//list các từ autorep
 client.on('messageCreate', message => {
 	// Kiểm tra nếu tin nhắn là "hi" (không phân biệt chữ hoa/chữ thường)
 	if (message.content.toLowerCase() === 'bầu vỹ') {
 	  // Trả lời "hello"
-	  message.reply('gay!');
+	  message.reply('gay! Vote mặc maid +1');
 	}
   });
 client.on('messageCreate', message => {
@@ -96,6 +100,57 @@ client.on('messageCreate', message => {
 client.on('messageCreate', message => {
 	if (message.content.toLowerCase() === 'họa sĩ') {
 		message.reply('Vừa nghèo vừa gay, gà!');
+	}
+  });
+client.on('messageCreate', (message) => {
+    if (message.author.bot) return;
+    
+    const args = message.content.match('!danhde (\\d+)');
+    if (args) {
+        const userNumber = parseInt(args[1]);
+        if (userNumber < 1 || userNumber > 100) {
+            return message.reply('Hãy nhập một số từ 1 đến 100.');
+        }
+
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        if (randomNumber === userNumber) {
+            message.reply(`🎉 Trúng rồi ${randomNumber}.`);
+        } else {
+            message.reply(`😢 Gà! Lệch rồi! Con số may mắn là ${randomNumber}, không phải ${userNumber}.`);
+        }
+    }
+	if (message.content.startsWith('!gacha')) {
+        const chance = Math.random();
+        let character;
+        if (chance < 0.01) {
+            character = sssrc[Math.floor(Math.random() * rareCharacters.length)];
+        } 
+		else if (chance < 0.11) {
+			character = src[Math.floor(Math.random() * rareCharacters.length)];
+		}
+		else if (chance < 0.41) {
+			character = rareCharacters[Math.floor(Math.random() * rareCharacters.length)];
+		}
+		else {
+            character = commonCharacters[Math.floor(Math.random() * commonCharacters.length)];
+        }
+        message.reply(`🎉 Bạn nhận được: ${character}!`);
+    }
+});
+client.on('messageCreate', message => {
+	if (message.content.toLowerCase() === 'gay') {
+		message.reply('Gay thì sao? - Thì ngu chứ làm sao:)))');
+	}
+  });
+client.on('messageCreate', message => {
+	if (message.content.toLowerCase() === 'end') {
+		message.reply('Bot sẽ tự động tắt trong 5s');
+		client.destroy();
+	}
+  });  
+client.on('messageCreate', message => {
+	if (message.content.toLowerCase() === 'lốp') {
+		message.reply('Lốp trưởng tuyệt đỉnh!');
 	}
   });
 client.login(token);
