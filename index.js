@@ -14,8 +14,6 @@ const client = new Client({
 	],
   });
 let userInventory = {};
-client.commands = new Collection();
-const commandFolders = fs.readdirSync(foldersPath);
 const pathinv = './inventory.json'; // Đường dẫn file lưu kho đồ
 
 
